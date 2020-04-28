@@ -49,7 +49,7 @@ int main()
     Widget* n = new Number(100,100,200,50,100,200); /// (x,y w,h, mini,maxi)
     Widget* m = new Number(400,75,100,100,-5000,5000);
     Widget* d = new DropDown(100,350,400,50,100,items2); /// (x,y,w,h,max_h,items vector) (max_h legyen többszöröse a h-nak, vagy a scrollBar rosszul viselkedik)
-    Widget* f = new DropDown(200,250,100,25,100,items1);
+    Widget* f = new DropDown(200,250,100,50,100,items1);
     widgets.push_back(n);
     widgets.push_back(m);
     widgets.push_back(d);

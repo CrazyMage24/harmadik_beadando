@@ -1,4 +1,0 @@
-1. Widget: 143
-2. Widget: -4
-3. Widget: panda
-4. Widget: barack

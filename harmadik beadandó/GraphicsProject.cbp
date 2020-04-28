@@ -40,9 +40,13 @@
 			<Add library="lib/libSDLmain.a" />
 			<Add directory="lib" />
 		</Linker>
+		<Unit filename="application.cpp" />
+		<Unit filename="application.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="widget.cpp" />
 		<Unit filename="widget.hpp" />
+		<Unit filename="window.cpp" />
+		<Unit filename="window.hpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

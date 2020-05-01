@@ -35,7 +35,7 @@ public:
 };
 #endif // MENU_HPP_INCLUDED
 
-/*
+
 #ifndef JATEK_HPP_INCLUDED
 #define JATEK_HPP_INCLUDED
 
@@ -45,10 +45,11 @@ private:
 public:
     Jatek(Application* wparent, int ww, int wh);
     void show() override;
+    void handleMouse(event ev) override;
 };
 #endif // JATEK_HPP_INCLUDED
 
-#ifndef CSATA_HPP_INCLUDED
+/*#ifndef CSATA_HPP_INCLUDED
 #define CSATA_HPP_INCLUDED
 
 class Csata : public Window

@@ -10,7 +10,7 @@
 using namespace std;
 using namespace genv;
 
-class Window;
+class Application;
 
 #ifndef WIDGET_HPP_INCLUDED
 #define WIDGET_HPP_INCLUDED
@@ -22,10 +22,15 @@ protected:
     int wiy;
     int wiw;
     int wih;
-    Window* wiparent;
+    Application* wiparent;
+    bool folotte;
 public:
-    Widget(Window* wiparent, int wix, int wiy, int wiw, int wih);
-    virtual void draw() = 0;
+    Widget(Application* wiparent, int wix, int wiy, int wiw, int wih);
+    bool is_selected(int pos_x, int pos_y);
+
+    virtual void handleTimer(event ev) = 0;
+    virtual void handleMouse(event ev) = 0;
+    virtual void handleKeys(event ev) = 0;
 };
 #endif // WIDGET_HPP_INCLUDED
 
@@ -37,29 +42,37 @@ class Button : public Widget
 protected:
     string szoveg;
 public:
-    Button(Window* wiparent, int wix, int wiy, int wiw, int wih);
-    void draw() override;
-    virtual void action() = 0;
+    Button(Application* wiparent, int wix, int wiy, int wiw, int wih, string szoveg);
+    void handleTimer(event ev) override;
+    void handleMouse(event ev) override;
+    void handleKeys(event ev) override;
+
+    void show();
+    void action();
 };
 #endif // BUTTON_HPP_INCLUDED
 
-#ifndef UJJATEK_HPP_INCLUDED
-#define UJJATEK_HPP_INCLUDED
+#ifndef CUBE_HPP_INCLUDED
+#define CUBE_HPP_INCLUDED
 
-class Ujjatek : public Button
+class Cube : public Widget
 {
+private:
+    int i;
+    int j;
+    static int Count;
+    bool marked;
+    bool select;
 public:
-    Ujjatek(Window* wiparent, int wix, int wiy, int wiw, int wih) : Button(wiparent,wix,wiy,wiw,wih)
-    {
-        szoveg = "Új jatek";
-    }
+    Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int j);
+    void handleTimer(event ev) override;
+    void handleMouse(event ev) override;
+    void handleKeys(event ev) override;
 
-    void action()
-    {
-        //wiparent->focus
-    }
+    void show();
+    void action();
 };
-#endif // UJJATEK_HPP_INCLUDED
+#endif // CUBE_HPP_INCLUDED
 
 
 

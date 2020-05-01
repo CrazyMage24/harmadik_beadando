@@ -14,16 +14,135 @@ void Application::event_loop()
 
     while(gin >> ev)
     {
-        if(ev.type == ev_timer)
+        if(jatek)
         {
-            background(aw,ah);
-            focus->show();
+            if(ev.type == ev_timer)
+            {
+                background(aw,ah);
+                for(int i = 0; i < palya.size(); i++)
+                {
+                    for(int j = 0; j < palya[i].size(); j++)
+                    {
+                        palya[i][j]->handleTimer(ev);
+                    }
+                }
+            }
+
+            if(ev.type == ev_mouse)
+            {
+                for(int i = 0; i < palya.size(); i++)
+                {
+                    for(int j = 0; j < palya[i].size(); j++)
+                    {
+                        palya[i][j]->handleMouse(ev);
+                    }
+                }
+            }
+
+            if(ev.type == ev_key)
+            {
+                for(int i = 0; i < palya.size(); i++)
+                {
+                    for(int j = 0; j < palya[i].size(); j++)
+                    {
+                        palya[i][j]->handleKeys(ev);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(ev.type == ev_timer)
+            {
+                background(aw,ah);
+                for(Widget* wi : widgets)
+                {
+                    wi->handleTimer(ev);
+                }
+            }
+
+            if(ev.type == ev_mouse)
+            {
+                for(Widget* wi : widgets)
+                {
+                    wi->handleMouse(ev);
+                }
+            }
+
+            if(ev.type == ev_key)
+            {
+                for(Widget* wi : widgets)
+                {
+                    wi->handleKeys(ev);
+                }
+            }
         }
 
-        if(ev.type == ev_mouse)
-        {
-            focus->handleMouse(ev);
-        }
         gout << refresh;
+    }
+}
+
+void Application::jatek_gep_15()
+{
+    jatek = true;
+    palya.clear();
+    widgets.clear();
+
+    for(int i = 0; i < 15; i++)
+    {
+        palya.push_back(vector<Widget*>());
+        for(int j = 0; j < 15; j++)
+        {
+            Widget* c = new Cube(this,i*40,j*40,40,40,i,j);
+            palya[i].push_back(c);
+        }
+    }
+}
+void Application::jatek_ember_15()
+{
+    jatek = true;
+    palya.clear();
+    widgets.clear();
+
+    for(int i = 0; i < 15; i++)
+    {
+        palya.push_back(vector<Widget*>());
+        for(int j = 0; j < 15; j++)
+        {
+            Widget* c = new Cube(this,i*40,j*40,40,40,i,j);
+            palya[i].push_back(c);
+        }
+    }
+}
+void Application::jatek_gep_30()
+{
+    jatek = true;
+    palya.clear();
+    widgets.clear();
+
+    for(int i = 0; i < 30; i++)
+    {
+        palya.push_back(vector<Widget*>());
+        for(int j = 0; j < 30; j++)
+        {
+            Widget* c = new Cube(this,i*20,j*20,20,20,i,j);
+            palya[i].push_back(c);
+        }
+    }
+}
+void Application::jatek_ember_30()
+{
+    jatek = true;
+    palya.clear();
+    widgets.clear();
+
+    for(int i = 0; i < 30; i++)
+    {
+        palya.push_back(vector<Widget*>());
+        for(int j = 0; j < 30; j++)
+        {
+            Widget* c = new Cube(this,i*20,j*20,20,20,i,j);
+            palya[i].push_back(c);
+        }
     }
 }

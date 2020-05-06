@@ -31,6 +31,7 @@ public:
     virtual void handleTimer(event ev) = 0;
     virtual void handleMouse(event ev) = 0;
     virtual void handleKeys(event ev) = 0;
+    virtual string getSelect() = 0;
 };
 #endif // WIDGET_HPP_INCLUDED
 
@@ -46,6 +47,7 @@ public:
     void handleTimer(event ev) override;
     void handleMouse(event ev) override;
     void handleKeys(event ev) override;
+    string getSelect() override;
 
     void show();
     void action();
@@ -58,19 +60,22 @@ public:
 class Cube : public Widget
 {
 private:
+    /// i oszlop, j sor
     int i;
     int j;
     static int Count;
     bool marked;
-    bool select;
+    string select;
 public:
     Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int j);
     void handleTimer(event ev) override;
     void handleMouse(event ev) override;
     void handleKeys(event ev) override;
+    string getSelect() override;
 
     void show();
     void action();
+
 };
 #endif // CUBE_HPP_INCLUDED
 

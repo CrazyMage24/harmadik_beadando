@@ -120,11 +120,17 @@ void Button::action()
     }
 }
 
+string Button::getSelect()
+{
+
+}
+
 Cube::Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int j) : Widget(wiparent,wix,wiy,wiw,wih)
 {
     marked = false;
     this->i=i;
     this->j=j;
+    select = "";
 }
 
 void Cube::handleTimer(event ev)
@@ -162,16 +168,13 @@ void Cube::show()
     gout << color(120,120,120) << move_to(wix,wiy) << box(wiw,wih);
     gout << color(220,220,220) << move_to(wix+2,wiy+2) << box(wiw-4,wih-4);
 
-    stringstream ss;
-    ss << "j:" << i;
-    gout << color(0,0,0) << move_to(wix,wiy+20) << text(ss.str());
     if(folotte)
     {
         gout << color(0,0,0) << move_to(wix,wiy) << box(wiw,wih);
         gout << color(220,220,220) << move_to(wix+2,wiy+2) << box(wiw-4,wih-4);
         if(marked)
         {
-            if(select)
+            if(select=="o")
             {
                 gout << color(0,0,205) << move_to(wix,wiy) << box(wiw,wih);
                 gout << color(220,220,220) << move_to(wix+2,wiy+2) << box(wiw-4,wih-4);
@@ -181,7 +184,7 @@ void Cube::show()
                 gout << color(220,220,220);
                 kor(wix+wiw/2,wiy+wih/2,wiw/3);
             }
-            else
+            if(select=="x")
             {
                 gout << color(205,0,0) << move_to(wix,wiy) << box(wiw,wih);
                 gout << color(220,220,220) << move_to(wix+2,wiy+2) << box(wiw-4,wih-4);
@@ -198,7 +201,7 @@ void Cube::show()
     {
         if(marked)
         {
-            if(select)
+            if(select == "o")
             {
                 gout << color(0,0,205) << move_to(wix,wiy) << box(wiw,wih);
                 gout << color(220,220,220) << move_to(wix+2,wiy+2) << box(wiw-4,wih-4);
@@ -208,7 +211,7 @@ void Cube::show()
                 gout << color(220,220,220);
                 kor(wix+wiw/2,wiy+wih/2,wiw/3);
             }
-            else
+            else if(select=="x")
             {
                 gout << color(205,0,0) << move_to(wix,wiy) << box(wiw,wih);
                 gout << color(220,220,220) << move_to(wix+2,wiy+2) << box(wiw-4,wih-4);
@@ -227,10 +230,15 @@ void Cube::action()
     Cube::Count++;
     if(Cube::Count % 2 == 0)
     {
-        select = true;
+        select = "o";
     }
     else
     {
-        select = false;
+        select = "x";
     }
+}
+
+string Cube::getSelect()
+{
+    return select;
 }

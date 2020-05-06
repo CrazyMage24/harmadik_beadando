@@ -1,7 +1,7 @@
 #include "application.hpp"
 
 const int w = 600;
-const int h = 600;
+const int h = 601;
 
 #ifndef MYAPP_HPP_INCLUDED
 #define MYAPP_HPP_INCLUDED

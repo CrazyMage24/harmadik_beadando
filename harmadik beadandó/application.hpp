@@ -20,6 +20,8 @@ public:
     void jatek_ember_15();
     void jatek_gep_30();
     void jatek_ember_30();
+
+    bool checkWin(vector<vector<Widget*> > palya);
 };
 
 #endif // APPLICATION_HPP_INCLUDED

@@ -27,6 +27,7 @@ void Application::event_loop()
                     }
                 }
                 checkWin(palya);
+                checkDraw(palya);
             }
 
             if(ev.type == ev_mouse)
@@ -81,6 +82,23 @@ void Application::event_loop()
 
         gout << refresh;
     }
+}
+
+void Application::menu()
+{
+    jatek = false;
+    palya.clear();
+    widgets.clear();
+    Widget* jatek_15_gep = new Button(this,150,75,300,50,"Új játék gép ellen (15x15)");
+    Widget* jatek_15_ember = new Button(this,150,175,300,50,"Új játék ember ellen (15x15)");
+    Widget* jatek_30_gep = new Button(this,150,275,300,50,"Új játék gép ellen (30x30)");
+    Widget* jatek_30_ember = new Button(this,150,375,300,50,"Új játék ember ellen (30x30)");
+    Widget* kilepes = new Button(this,150,475,300,50,"Kilépés");
+    widgets.push_back(jatek_15_gep);
+    widgets.push_back(jatek_15_ember);
+    widgets.push_back(jatek_30_gep);
+    widgets.push_back(jatek_30_ember);
+    widgets.push_back(kilepes);
 }
 
 void Application::jatek_gep_15()
@@ -148,7 +166,7 @@ void Application::jatek_ember_30()
     }
 }
 
-bool Application::checkWin(vector<vector<Widget*> > palya)
+void Application::checkWin(vector<vector<Widget*> > palya)
 {
     int x_score = 0;
     int o_score = 0;
@@ -192,6 +210,8 @@ bool Application::checkWin(vector<vector<Widget*> > palya)
     }
 
     /// sorokra
+    o_score = 0;
+    x_score = 0;
     for(int i = 0; i < palya.size(); i++)
     {
         for(int j = 0; j < palya[i].size(); j++)
@@ -232,65 +252,87 @@ bool Application::checkWin(vector<vector<Widget*> > palya)
 
     /// jobbra átlósan
 
-    for(int i = 1; i < palya.size() - 4; i++)
+    o_score = 0;
+    x_score = 0;
+    for(int i = 0; i < palya.size(); i++)
     {
-        for(int j = 1; j < palya[i].size() - i; j++)
+        for(int j = 0; j < palya[i].size(); j++)
         {
-            if(palya[i][j]->getSelect() == "x")
+            for(int k = 0; k < 5; k++)
             {
-                x_score++;
-                o_score = 0;
-                for(int k = 0; k < 5; k++)
+                if(i+k < palya.size() && j+k<palya[i].size())
                 {
                     if(palya[i+k][j+k]->getSelect() == "x")
                     {
                         x_score++;
                         o_score = 0;
                     }
-
                     if(palya[i+k][j+k]->getSelect() == "o")
                     {
                         o_score++;
                         x_score = 0;
                     }
-
                     if(palya[i+k][j+k]->getSelect() == "")
                     {
                         x_score = 0;
                         o_score = 0;
                     }
-                }
-
-                if(x_score>=5)
-                {
-                    cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                    gin.timer(0);
-                }
-
-                if(o_score>=5)
-                {
-                    cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-
                 }
             }
 
-
-            if(palya[i][j]->getSelect() == "o")
+            if(x_score>=5)
             {
-                o_score++;
-                x_score = 0;
-                for(int k = 0; k < 5; k++)
+                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
+
+            x_score = 0;
+            o_score = 0;
+
+            for(int k = 0; k < 5; k++)
+            {
+                if(i+k < palya.size() && j-k>=0)
                 {
-                    if(palya[i+k][j+k]->getSelect() == "x")
+                    if(palya[i+k][j-k]->getSelect() == "x")
                     {
                         x_score++;
                         o_score = 0;
                     }
+                    if(palya[i+k][j-k]->getSelect() == "o")
+                    {
+                        o_score++;
+                        x_score = 0;
+                    }
+                    if(palya[i+k][j-k]->getSelect() == "")
+                    {
+                        x_score = 0;
+                        o_score = 0;
+                    }
+                }
+            }
+            if(x_score>=5)
+            {
+                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
 
+            x_score = 0;
+            o_score = 0;
+
+            for(int k = 0; k < 5; k++)
+            {
+                if(i+k < palya.size() && j+k<palya[i].size())
+                {
                     if(palya[i+k][j+k]->getSelect() == "o")
                     {
                         o_score++;
                         x_score = 0;
+                    }
+
+                    if(palya[i+k][j+k]->getSelect() == "x")
+                    {
+                        x_score++;
+                        o_score = 0;
                     }
 
                     if(palya[i+k][j+k]->getSelect() == "")
@@ -299,22 +341,203 @@ bool Application::checkWin(vector<vector<Widget*> > palya)
                         o_score = 0;
                     }
                 }
+            }
+            if(o_score>=5)
+            {
+                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
 
-                if(x_score>=5)
+            x_score = 0;
+            o_score = 0;
+
+            for(int k = 0; k < 5; k++)
+            {
+                if(i+k < palya.size() && j-k>=0)
                 {
-                    cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                    gin.timer(0);
-                }
+                    if(palya[i+k][j-k]->getSelect() == "o")
+                    {
+                        o_score++;
+                        x_score = 0;
+                    }
 
-                if(o_score>=5)
-                {
-                    cout <<"o win o_score: " << o_score << " x_score: " << x_score;
+                    if(palya[i+k][j-k]->getSelect() == "x")
+                    {
+                        x_score++;
+                        o_score = 0;
+                    }
 
+                    if(palya[i+k][j-k]->getSelect() == "")
+                    {
+                        x_score = 0;
+                        o_score = 0;
+                    }
                 }
+            }
+            if(o_score>=5)
+            {
+                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
             }
         }
         x_score = 0;
         o_score = 0;
+    }
+
+
+    /// balra átlósan
+    o_score = 0;
+    x_score = 0;
+    for(int i = 0; i < palya.size(); i++)
+    {
+        for(int j = 0; j < palya[i].size(); j++)
+        {
+            for(int k = 0; k < 5; k++)
+            {
+                if(i-k >= 0 && j-k >= 0)
+                {
+                    if(palya[i-k][j-k]->getSelect() == "x")
+                    {
+                        x_score++;
+                        o_score = 0;
+                    }
+                    if(palya[i-k][j-k]->getSelect() == "o")
+                    {
+                        o_score++;
+                        x_score = 0;
+                    }
+                    if(palya[i-k][j-k]->getSelect() == "")
+                    {
+                        x_score = 0;
+                        o_score = 0;
+                    }
+                }
+            }
+
+            if(x_score>=5)
+            {
+                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
+
+            x_score = 0;
+            o_score = 0;
+
+            for(int k = 0; k < 5; k++)
+            {
+                if(i-k >= 0 && j-k >= 0)
+                {
+                    if(palya[i-k][j-k]->getSelect() == "x")
+                    {
+                        x_score++;
+                        o_score = 0;
+                    }
+                    if(palya[i-k][j-k]->getSelect() == "o")
+                    {
+                        o_score++;
+                        x_score = 0;
+                    }
+                    if(palya[i-k][j-k]->getSelect() == "")
+                    {
+                        x_score = 0;
+                        o_score = 0;
+                    }
+                }
+            }
+            if(x_score>=5)
+            {
+                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
+
+            x_score = 0;
+            o_score = 0;
+
+            for(int k = 0; k < 5; k++)
+            {
+                if(i-k >= 0 && j+k<palya[i].size())
+                {
+                    if(palya[i-k][j+k]->getSelect() == "o")
+                    {
+                        o_score++;
+                        x_score = 0;
+                    }
+
+                    if(palya[i-k][j+k]->getSelect() == "x")
+                    {
+                        x_score++;
+                        o_score = 0;
+                    }
+
+                    if(palya[i-k][j+k]->getSelect() == "")
+                    {
+                        x_score = 0;
+                        o_score = 0;
+                    }
+                }
+            }
+            if(o_score>=5)
+            {
+                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
+
+            x_score = 0;
+            o_score = 0;
+
+            for(int k = 0; k < 5; k++)
+            {
+                if(i-k >= 0 && j+k<palya[i].size())
+                {
+                    if(palya[i-k][j+k]->getSelect() == "o")
+                    {
+                        o_score++;
+                        x_score = 0;
+                    }
+
+                    if(palya[i-k][j+k]->getSelect() == "x")
+                    {
+                        x_score++;
+                        o_score = 0;
+                    }
+
+                    if(palya[i-k][j+k]->getSelect() == "")
+                    {
+                        x_score = 0;
+                        o_score = 0;
+                    }
+                }
+            }
+            if(o_score>=5)
+            {
+                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
+                gin.timer(0);
+            }
+        }
+        x_score = 0;
+        o_score = 0;
+    }
+
+}
+
+
+void Application::checkDraw(vector<vector<Widget*> > palya)
+{
+    bool dontetlen = true;
+
+    for(int i = 0; i < palya.size(); i++)
+    {
+        for(int j = 0; j < palya[i].size(); j++)
+        {
+            if(palya[i][j]->getSelect() == "")
+            {
+                dontetlen = false;
+            }
+        }
+    }
+    if(dontetlen)
+    {
+        cout << "Döntetlen";
     }
 
 }

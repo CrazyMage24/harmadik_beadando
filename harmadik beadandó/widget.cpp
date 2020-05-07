@@ -160,7 +160,10 @@ void Cube::handleMouse(event ev)
 }
 void Cube::handleKeys(event ev)
 {
-
+    if(ev.keycode == key_escape)
+    {
+        wiparent->menu();
+    }
 }
 
 void Cube::show()

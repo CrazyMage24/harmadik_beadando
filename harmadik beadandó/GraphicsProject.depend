@@ -116,7 +116,7 @@
 1587176099 source:c:\users\gábor\desktop\prog\beadandó handleevent\main.cpp
 	"widget.hpp"
 
-1588723286 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\widget.cpp
+1588816063 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\widget.cpp
 	"application.hpp"
 
 1588380776 c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\widget.hpp
@@ -132,13 +132,13 @@
 1588075051 c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\include\graphics.hpp
 	<string>
 
-1588723665 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\main.cpp
+1588815201 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\main.cpp
 	"application.hpp"
 
-1588728367 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\application.cpp
+1588816063 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\application.cpp
 	"application.hpp"
 
-1588380486 c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\application.hpp
+1588815201 c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\application.hpp
 	"widget.hpp"
 
 1588116792 source:c:\users\gábor\desktop\prog\harmadik_bead\harmadik_beadando\harmadik beadandó\window.cpp

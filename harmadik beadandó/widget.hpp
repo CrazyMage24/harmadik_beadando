@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <math.h>
+#include <Windows.h>
 
 using namespace std;
 using namespace genv;
@@ -29,9 +30,11 @@ public:
     bool is_selected(int pos_x, int pos_y);
 
     virtual void handleTimer(event ev) = 0;
-    virtual void handleMouse(event ev) = 0;
+    virtual void handleMouse(event ev,bool gep_ellen) = 0;
     virtual void handleKeys(event ev) = 0;
     virtual string getSelect() = 0;
+
+    virtual void gepValaszt() = 0;
 };
 #endif // WIDGET_HPP_INCLUDED
 
@@ -45,12 +48,12 @@ protected:
 public:
     Button(Application* wiparent, int wix, int wiy, int wiw, int wih, string szoveg);
     void handleTimer(event ev) override;
-    void handleMouse(event ev) override;
+    void handleMouse(event ev,bool gep_ellen) override;
     void handleKeys(event ev) override;
     string getSelect() override;
-
+    void gepValaszt() override;
     void show();
-    void action();
+    void action() ;
 };
 #endif // BUTTON_HPP_INCLUDED
 
@@ -69,12 +72,13 @@ private:
 public:
     Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int j);
     void handleTimer(event ev) override;
-    void handleMouse(event ev) override;
+    void handleMouse(event ev,bool gep_ellen) override;
     void handleKeys(event ev) override;
     string getSelect() override;
+    void gepValaszt() override;
 
     void show();
-    void action();
+    void action(bool gep_ellen);
 
 };
 #endif // CUBE_HPP_INCLUDED

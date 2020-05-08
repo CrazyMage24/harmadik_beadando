@@ -47,7 +47,7 @@ void Button::handleTimer(event ev)
 {
     show();
 }
-void Button::handleMouse(event ev)
+void Button::handleMouse(event ev,bool gep_ellen)
 {
     if(ev.button == btn_left)
     {
@@ -125,6 +125,10 @@ string Button::getSelect()
 
 }
 
+void Button::gepValaszt()
+{
+
+}
 Cube::Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int j) : Widget(wiparent,wix,wiy,wiw,wih)
 {
     marked = false;
@@ -137,13 +141,13 @@ void Cube::handleTimer(event ev)
 {
     show();
 }
-void Cube::handleMouse(event ev)
+void Cube::handleMouse(event ev,bool gep_ellen)
 {
     if(ev.button == btn_left)
     {
         if(folotte && !marked)
         {
-            action();
+            action(gep_ellen);
         }
     }
     if(ev.button == 0)
@@ -227,21 +231,46 @@ void Cube::show()
         }
     }
 }
-void Cube::action()
+void Cube::action(bool gep_ellen)
 {
-    marked = true;
-    Cube::Count++;
-    if(Cube::Count % 2 == 0)
+    if(gep_ellen)
     {
-        select = "o";
+        marked = true;
+        select = "x";
+        Cube::Count++;
+        //Sleep(1000);
+
+        wiparent->valaszt();
     }
     else
     {
-        select = "x";
+        marked = true;
+        Cube::Count++;
+        if(Cube::Count % 2 == 0)
+        {
+            select = "o";
+        }
+        else
+        {
+            select = "x";
+        }
     }
+
 }
 
 string Cube::getSelect()
 {
     return select;
 }
+
+void Cube::gepValaszt()
+{
+    marked = true;
+    Cube::Count++;
+    select = "o";
+}
+
+
+
+
+

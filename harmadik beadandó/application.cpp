@@ -30,13 +30,13 @@ void Application::event_loop()
                 checkDraw(palya);
             }
 
-            if(ev.type == ev_mouse)
+            if(ev.type == ev_mouse && !nyert)
             {
                 for(int i = 0; i < palya.size(); i++)
                 {
                     for(int j = 0; j < palya[i].size(); j++)
                     {
-                        palya[i][j]->handleMouse(ev);
+                        palya[i][j]->handleMouse(ev,gep_ellen);
                     }
                 }
             }
@@ -67,7 +67,7 @@ void Application::event_loop()
             {
                 for(Widget* wi : widgets)
                 {
-                    wi->handleMouse(ev);
+                    wi->handleMouse(ev,false);
                 }
             }
 
@@ -87,6 +87,8 @@ void Application::event_loop()
 void Application::menu()
 {
     jatek = false;
+    nyert = false;
+
     palya.clear();
     widgets.clear();
     Widget* jatek_15_gep = new Button(this,150,75,300,50,"Új játék gép ellen (15x15)");
@@ -104,6 +106,7 @@ void Application::menu()
 void Application::jatek_gep_15()
 {
     jatek = true;
+    gep_ellen = true;
     palya.clear();
     widgets.clear();
 
@@ -120,6 +123,7 @@ void Application::jatek_gep_15()
 void Application::jatek_ember_15()
 {
     jatek = true;
+    gep_ellen = false;
     palya.clear();
     widgets.clear();
 
@@ -136,6 +140,7 @@ void Application::jatek_ember_15()
 void Application::jatek_gep_30()
 {
     jatek = true;
+    gep_ellen = true;
     palya.clear();
     widgets.clear();
 
@@ -152,6 +157,7 @@ void Application::jatek_gep_30()
 void Application::jatek_ember_30()
 {
     jatek = true;
+    gep_ellen = false;
     palya.clear();
     widgets.clear();
 
@@ -195,14 +201,12 @@ void Application::checkWin(vector<vector<Widget*> > palya)
 
             if(x_score>=5)
             {
-                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("X nyert");
             }
 
             if(o_score>=5)
             {
-                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("O nyert");
             }
         }
         o_score = 0;
@@ -236,14 +240,12 @@ void Application::checkWin(vector<vector<Widget*> > palya)
 
             if(x_score>=5)
             {
-                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("X nyert");
             }
 
             if(o_score>=5)
             {
-                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("O nyert");
             }
         }
         o_score = 0;
@@ -282,8 +284,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
 
             if(x_score>=5)
             {
-                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("X nyert");
             }
 
             x_score = 0;
@@ -312,8 +313,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             }
             if(x_score>=5)
             {
-                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("X nyert");
             }
 
             x_score = 0;
@@ -344,8 +344,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             }
             if(o_score>=5)
             {
-                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("O nyert");
             }
 
             x_score = 0;
@@ -376,8 +375,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             }
             if(o_score>=5)
             {
-                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("O nyert");
             }
         }
         x_score = 0;
@@ -416,8 +414,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
 
             if(x_score>=5)
             {
-                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("X nyert");
             }
 
             x_score = 0;
@@ -446,8 +443,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             }
             if(x_score>=5)
             {
-                cout <<"x win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("X nyert");
             }
 
             x_score = 0;
@@ -478,8 +474,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             }
             if(o_score>=5)
             {
-                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("O nyert");
             }
 
             x_score = 0;
@@ -510,8 +505,7 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             }
             if(o_score>=5)
             {
-                cout <<"o win o_score: " << o_score << " x_score: " << x_score;
-                gin.timer(0);
+                endGame("O nyert");
             }
         }
         x_score = 0;
@@ -537,7 +531,21 @@ void Application::checkDraw(vector<vector<Widget*> > palya)
     }
     if(dontetlen)
     {
-        cout << "Döntetlen";
+        endGame("Döntetlen");
     }
 
 }
+
+void Application::endGame(string message)
+{
+    gout << color(255,255,255) << move_to(0,0) << box(150,75);
+    gout << color(0,0,0) << move_to(15,25) << text(message);
+    gout << color(0,0,0) << move_to(15,50) << text("ESC a menübe");
+    nyert = true;
+}
+
+void Application::valaszt()
+{
+    palya[rand()%10][rand()%10]->gepValaszt();
+}
+

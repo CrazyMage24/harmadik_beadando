@@ -7,6 +7,106 @@ void background(int aw, int ah)
     gout << color(255,255,255) << move_to(aw/2,0) <<line(0,ah);
 }
 
+Widget* bestMove(vector<vector<Widget*> > palya)
+{
+    Widget* kivalasztott = palya[0][0];
+    int bestScore = -10;
+    for(int i = 0; i < palya.size(); i++)
+    {
+        for(int j = 0; j < palya[i].size(); j++)
+        {
+            if(palya[i][j]->getSelect() == "")
+            {
+                for(int k = -4; k <5; k++)
+                {
+                    for(int l = -4; l <5; l++)
+                    {
+                        int score = 0;
+
+                        if(i+k < palya.size() && i+k >=0 && j+l < palya.size() && j+l >=0 && j+k < palya.size() && j+k >=0)
+                        {
+                            //sorban
+
+                                // x-re
+                                score = 0;
+
+                                if(palya[i+k][j]->getSelect()=="x")
+                                {
+                                    if(k == -4 || k == 4)
+                                    {
+                                        score+=1;
+                                    }
+
+                                    if(k == -3 || k == 3)
+                                    {
+                                        score+=10;
+                                    }
+
+                                    if(k == -2 || k == 2)
+                                    {
+                                        score+=100;
+                                    }
+
+                                    if(k == -1 || k == 1)
+                                    {
+                                        score+=1000;
+                                    }
+                                }
+
+                                if(score > bestScore)
+                                {
+                                    bestScore = score;
+                                    cout << i << " " << j << endl;
+                                    kivalasztott = palya[i][j];
+                                }
+
+
+                            //oszlopban
+
+                                // x-re
+                                score = 0;
+
+                                if(palya[i][j+k]->getSelect()=="x")
+                                {
+                                    if(k == -4 || k == 4)
+                                    {
+                                        score+=1;
+                                    }
+
+                                    if(k == -3 || k == 3)
+                                    {
+                                        score+=10;
+                                    }
+
+                                    if(k == -2 || k == 2)
+                                    {
+                                        score+=100;
+                                    }
+
+                                    if(k == -1 || k == 1)
+                                    {
+                                        score+=1000;
+                                    }
+                                }
+
+                                if(score > bestScore)
+                                {
+                                    bestScore = score;
+                                    cout << i << " " << j << endl;
+                                    kivalasztott = palya[i][j];
+                                }
+                        }
+
+                        score = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    return kivalasztott;
+}
+
 void Application::event_loop()
 {
     event ev;
@@ -23,11 +123,10 @@ void Application::event_loop()
                 {
                     for(int j = 0; j < palya[i].size(); j++)
                     {
-                        palya[i][j]->handleTimer(ev);
+                        palya[i][j]->handleTimer();
                     }
                 }
-                checkWin(palya);
-                checkDraw(palya);
+                checkWin();
             }
 
             if(ev.type == ev_mouse && !nyert)
@@ -59,7 +158,7 @@ void Application::event_loop()
                 background(aw,ah);
                 for(Widget* wi : widgets)
                 {
-                    wi->handleTimer(ev);
+                    wi->handleTimer();
                 }
             }
 
@@ -172,7 +271,7 @@ void Application::jatek_ember_30()
     }
 }
 
-void Application::checkWin(vector<vector<Widget*> > palya)
+void Application::checkWin()
 {
     int x_score = 0;
     int o_score = 0;
@@ -377,9 +476,9 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             {
                 endGame("O nyert");
             }
+            x_score = 0;
+            o_score = 0;
         }
-        x_score = 0;
-        o_score = 0;
     }
 
 
@@ -507,16 +606,11 @@ void Application::checkWin(vector<vector<Widget*> > palya)
             {
                 endGame("O nyert");
             }
+            x_score = 0;
+            o_score = 0;
         }
-        x_score = 0;
-        o_score = 0;
     }
 
-}
-
-
-void Application::checkDraw(vector<vector<Widget*> > palya)
-{
     bool dontetlen = true;
 
     for(int i = 0; i < palya.size(); i++)
@@ -533,19 +627,24 @@ void Application::checkDraw(vector<vector<Widget*> > palya)
     {
         endGame("Döntetlen");
     }
-
 }
+
 
 void Application::endGame(string message)
 {
-    gout << color(255,255,255) << move_to(0,0) << box(150,75);
-    gout << color(0,0,0) << move_to(15,25) << text(message);
-    gout << color(0,0,0) << move_to(15,50) << text("ESC a menübe");
+    Widget* m = new Message(this,0,0,150,75,message);
+    m->handleTimer();
     nyert = true;
 }
 
 void Application::valaszt()
 {
-    palya[rand()%10][rand()%10]->gepValaszt();
-}
+    Widget* kivalasztott = nullptr;
 
+    kivalasztott = bestMove(palya);
+
+    if(kivalasztott!=nullptr)
+    {
+        kivalasztott->gepValaszt();
+    }
+}

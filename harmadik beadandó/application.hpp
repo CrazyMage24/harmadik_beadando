@@ -21,8 +21,7 @@ public:
     void jatek_gep_30();
     void jatek_ember_30();
 
-    void checkWin(vector<vector<Widget*> > palya);
-    void checkDraw(vector<vector<Widget*> > palya);
+    void checkWin();
 
     void endGame(string message);
     void valaszt();

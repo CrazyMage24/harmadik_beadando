@@ -28,12 +28,10 @@ bool Widget::is_selected(int pos_x, int pos_y)
 {
     if(pos_x>wix && pos_x<wix+wiw && pos_y>wiy && pos_y<wiy+wih)
     {
-        folotte = true;
         return true;
     }
     else
     {
-        folotte = false;
         return false;
     }
 }
@@ -43,7 +41,7 @@ Button::Button(Application* wiparent, int wix, int wiy, int wiw, int wih, string
     this->szoveg=szoveg;
 }
 
-void Button::handleTimer(event ev)
+void Button::handleTimer()
 {
     show();
 }
@@ -53,7 +51,7 @@ void Button::handleMouse(event ev,bool gep_ellen)
     {
         if(folotte)
         {
-            action();
+            action(false);
         }
     }
     if(ev.button == 0)
@@ -92,7 +90,7 @@ void Button::show()
     }
 }
 
-void Button::action()
+void Button::action(bool gep_ellen)
 {
     if(szoveg=="Kilépés")
     {
@@ -129,6 +127,10 @@ void Button::gepValaszt()
 {
 
 }
+
+void Button::reset()
+{
+}
 Cube::Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int j) : Widget(wiparent,wix,wiy,wiw,wih)
 {
     marked = false;
@@ -137,7 +139,7 @@ Cube::Cube(Application* wiparent, int wix, int wiy, int wiw, int wih,int i, int 
     select = "";
 }
 
-void Cube::handleTimer(event ev)
+void Cube::handleTimer()
 {
     show();
 }
@@ -238,8 +240,6 @@ void Cube::action(bool gep_ellen)
         marked = true;
         select = "x";
         Cube::Count++;
-        //Sleep(1000);
-
         wiparent->valaszt();
     }
     else
@@ -270,7 +270,52 @@ void Cube::gepValaszt()
     select = "o";
 }
 
+void Cube::reset()
+{
+    marked = false;
+    Cube::Count--;
+    select = "";
+}
 
+Message::Message(Application* wiparent, int wix, int wiy, int wiw, int wih, string message) : Widget(wiparent,wix,wiy,wiw,wih)
+{
+    m=message;
+}
 
+void Message::handleTimer()
+{
+    show();
+}
+void Message::handleMouse(event ev,bool gep_ellen)
+{
 
+}
+void Message::handleKeys(event ev)
+{
 
+}
+string Message::getSelect()
+{
+
+}
+
+void Message::gepValaszt()
+{
+
+}
+
+void Message::action(bool gep_ellen)
+{
+
+}
+
+void Message::reset()
+{
+
+}
+void Message::show()
+{
+    gout << color(255,255,255) << move_to(wix,wiy) << box(wiw,wih);
+    gout << color(0,0,0) << move_to(15,25) << text(m);
+    gout << color(0,0,0) << move_to(15,50) << text("ESC a menübe");
+}

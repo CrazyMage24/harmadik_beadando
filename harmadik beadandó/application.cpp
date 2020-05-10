@@ -23,34 +23,29 @@ Widget* bestMove(vector<vector<Widget*> > palya)
                     {
                         int score = 0;
 
-                        if(i+k < palya.size() && i+k >=0 && j+l < palya.size() && j+l >=0 && j+k < palya.size() && j+k >=0)
+                        if(i+k < palya.size() && i+k >=0)
                         {
-                            //sorban
-
-                                // x-re
-                                score = 0;
-
-                                if(palya[i+k][j]->getSelect()=="x")
+                            score = 0;
+                            if(palya[i+k][j]->getSelect()=="x")
+                            {
+                                if(k == -4 || k == 4)
                                 {
-                                    if(k == -4 || k == 4)
-                                    {
-                                        score+=1;
-                                    }
+                                    score+=1;
+                                }
 
-                                    if(k == -3 || k == 3)
-                                    {
-                                        score+=10;
-                                    }
+                                if(k == -3 || k == 3)
+                                {
+                                    score+=10;
+                                }
 
-                                    if(k == -2 || k == 2)
-                                    {
-                                        score+=100;
-                                    }
+                                if(k == -2 || k == 2)
+                                {
+                                    score+=100;
+                                }
 
-                                    if(k == -1 || k == 1)
-                                    {
-                                        score+=1000;
-                                    }
+                                if(k == -1 || k == 1)
+                                {
+                                    score+=1000;
                                 }
 
                                 if(score > bestScore)
@@ -58,46 +53,52 @@ Widget* bestMove(vector<vector<Widget*> > palya)
                                     bestScore = score;
                                     cout << i << " " << j << endl;
                                     kivalasztott = palya[i][j];
+                                    score = 0;
                                 }
 
-
-                            //oszlopban
-
-                                // x-re
-                                score = 0;
-
-                                if(palya[i][j+k]->getSelect()=="x")
-                                {
-                                    if(k == -4 || k == 4)
-                                    {
-                                        score+=1;
-                                    }
-
-                                    if(k == -3 || k == 3)
-                                    {
-                                        score+=10;
-                                    }
-
-                                    if(k == -2 || k == 2)
-                                    {
-                                        score+=100;
-                                    }
-
-                                    if(k == -1 || k == 1)
-                                    {
-                                        score+=1000;
-                                    }
-                                }
-
-                                if(score > bestScore)
-                                {
-                                    bestScore = score;
-                                    cout << i << " " << j << endl;
-                                    kivalasztott = palya[i][j];
-                                }
+                            }
                         }
+                    }
+                }
 
-                        score = 0;
+                for(int k = -4; k <5; k++)
+                {
+                    for(int l = -4; l <5; l++)
+                    {
+                        int score = 0;
+                        if(j+l < palya.size() && j+l >=0)
+                        {
+                            score = 0;
+                            if(palya[i][j+l]->getSelect()=="x")
+                            {
+                                if(l == -4 || l == 4)
+                                {
+                                    score+=1;
+                                }
+
+                                if(l == -3 || l == 3)
+                                {
+                                    score+=10;
+                                }
+
+                                if(l == -2 || l == 2)
+                                {
+                                    score+=100;
+                                }
+
+                                if(l == -1 || l == 1)
+                                {
+                                    score+=1000;
+                                }
+                                if(score > bestScore)
+                                {
+                                    bestScore = score;
+                                    kivalasztott = palya[i][j];
+
+                                }
+                                score = 0;
+                            }
+                        }
                     }
                 }
             }

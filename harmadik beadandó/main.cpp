@@ -9,6 +9,11 @@ const int h = 601;
 class Myapp : public Application
 {
 private:
+    vector<Widget*> widgets;
+    vector<vector<Widget*> > palya;
+    bool jatek;
+    bool nyert;
+    bool gep_ellen;
 public:
     Myapp()
     {
